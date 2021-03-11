@@ -1,7 +1,7 @@
 # k-means clustering
-# implementasi dari : 
+# implementasi dari : http://studyshut.blogspot.com/2018/12/contoh-perhitungan-manual-menggunakan.html
 import numpy as np
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 
 def read_dataset(dataset_dir):
@@ -9,7 +9,6 @@ def read_dataset(dataset_dir):
 
 def init_cluster(centroid, data, k):
     all_euclidean = np.array([])
-    print(all_euclidean)
     # for this project only!
     for i in range(k):
         # membuat array dengan elemen yang berulang
@@ -32,9 +31,17 @@ def init_cluster(centroid, data, k):
     # mengambil nilai index minimal menggunakan np.argmin
     euclidean_min = np.hstack((final_eucl, np.argmin(final_eucl, axis=1).reshape(15,-1)))
     data_with_cluster = np.hstack((data, np.argmin(final_eucl, axis=1).reshape(15,-1))) 
-    print(data_with_cluster)
-    
+    print(f'data dengan cluster :\n {data_with_cluster}')
 
+    # deklarasi array cluster baru
+    new_cluster = np.zeros_like(centroid)
+    # menentukan kluster baru
+    for k in range(0, (data_with_cluster[0].shape[0]-1)):
+        # print(data_with_cluster[np.where(data_with_cluster[:,-1] == k)])
+        array_cluster = data_with_cluster[np.where(data_with_cluster[:,-1] == k)] 
+        avg_cluster = np.divide(np.sum(array_cluster,axis=0), array_cluster.shape[0])
+        new_cluster[k] = avg_cluster[:3]
+    print(new_cluster)
 
 def main():
     # membaca dataset
